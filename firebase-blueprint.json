@@ -1,0 +1,330 @@
+{
+  "entities": {
+    "UserLedger": {
+      "title": "UserLedger",
+      "description": "Root ledger profile for a single authenticated user storing operational budget settings.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the ledger owner.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "allocatedBudget": {
+          "type": "number",
+          "description": "Allocated monthly/operational expense budget in INR."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the user ledger was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the user ledger was last updated."
+        }
+      },
+      "required": ["ownerId", "allocatedBudget", "createdAt", "updatedAt"]
+    },
+    "BankAccount": {
+      "title": "BankAccount",
+      "description": "A user's bank account with an initial opening balance.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "initialBalance": {
+          "type": "number"
+        },
+        "createdDate": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["ownerId", "name", "initialBalance", "createdDate", "createdAt", "updatedAt"]
+    },
+    "TicketEntry": {
+      "title": "TicketEntry",
+      "description": "A booked ticket record with cost, profit (service charge), customer paid amount, and account routing.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "date": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "customerName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "journey": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "ticketCost": {
+          "type": "number"
+        },
+        "serviceCharge": {
+          "type": "number"
+        },
+        "customerPaid": {
+          "type": "number"
+        },
+        "paidFromAccountId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "receivedIn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "date",
+        "customerName",
+        "journey",
+        "ticketCost",
+        "serviceCharge",
+        "customerPaid",
+        "paidFromAccountId",
+        "receivedIn",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UdharEntry": {
+      "title": "UdharEntry",
+      "description": "A pending or settled credit (Udhar) payment owed by a person.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "date": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "personName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "amount": {
+          "type": "number"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "settled"]
+        },
+        "linkedTicketId": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "settledDate": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10
+        },
+        "settledAccountId": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "date",
+        "personName",
+        "amount",
+        "note",
+        "status",
+        "linkedTicketId",
+        "settledDate",
+        "settledAccountId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ExpenseEntry": {
+      "title": "ExpenseEntry",
+      "description": "A daily operational or personal other expense entry.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "date": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "paidTo": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "amount": {
+          "type": "number"
+        },
+        "paidFromAccountId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerId",
+        "date",
+        "category",
+        "paidTo",
+        "amount",
+        "paidFromAccountId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CashAddition": {
+      "title": "CashAddition",
+      "description": "An in-hand cash wallet addition log entry.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "date": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 150
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["ownerId", "date", "amount", "note", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserLedger" },
+      "description": "Root ledger settings document owned by the authenticated user."
+    },
+    "/users/{userId}/banks/{bankId}": {
+      "schema": { "$ref": "#/entities/BankAccount" },
+      "description": "Bank accounts belonging to the authenticated user."
+    },
+    "/users/{userId}/tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/TicketEntry" },
+      "description": "Ticket booking entries belonging to the authenticated user."
+    },
+    "/users/{userId}/udhar/{udharId}": {
+      "schema": { "$ref": "#/entities/UdharEntry" },
+      "description": "Pending and settled Udhar entries belonging to the authenticated user."
+    },
+    "/users/{userId}/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/ExpenseEntry" },
+      "description": "Other operational expenses belonging to the authenticated user."
+    },
+    "/users/{userId}/cashAdditions/{cashId}": {
+      "schema": { "$ref": "#/entities/CashAddition" },
+      "description": "In-hand cash wallet additions belonging to the authenticated user."
+    }
+  }
+}

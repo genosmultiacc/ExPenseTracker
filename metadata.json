@@ -1,0 +1,6 @@
+{
+  "name": "Expense Tracker",
+  "description": "Ticket booking profit, bank accounts, cash wallet, Udhar pending payments, and daily expense tracker.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
